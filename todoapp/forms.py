@@ -15,10 +15,18 @@ class TodoForm(ModelForm):
         model = ToDo
         fields = ['title', 'memo', 'important']
 
+        labels = {  'title':'Nazwa zadania',
+            'memo':'Opis zadania',
+            'important':'Oznacz jako pilne'}
+
 class EditTodoForm(ModelForm):
     class Meta:
         model = ToDo
         fields = ['title', 'memo', 'important' ]
+
+        labels = {  'title':'Nazwa zadania',
+            'memo':'Opis zadania',
+            'important':'Oznacz jako pilne'}
 
 class MakeComplete(ModelForm):
     class Meta:

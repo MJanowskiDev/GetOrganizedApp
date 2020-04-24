@@ -1,9 +1,9 @@
 {% extends "todoapp/base.html" %}
 {%load bootstrap4%}
 {% block content %}
-<h1>Edit Todo</h1>
-
-<br>
+<div class="d-flex justify-content-center">
+    <h1>Edycja zadania</h1>
+</div>
 
 
 {% if todo.done %}
@@ -16,7 +16,7 @@
 
     <form method="POST" action="{% url 'remove' pk=todo.pk user=user.username %}">
         {%csrf_token%}
-        <button type="submit" class="btn btn-danger btn-block">Delete</button>
+        <button type="submit" class="btn btn-danger btn-block">Usuń</button>
     </form>
 
 {%else%} 
@@ -24,17 +24,17 @@
     <form method="POST">
         {%bootstrap_form form%}
         {%csrf_token%}
-        <button type="submit" class="btn btn-primary btn-block">Save</button>
+        <button type="submit" class="btn btn-primary btn-block">Zapisz</button>
     </form>
 
     <form method="POST" action="{% url 'makecomplete' pk=todo.pk %}">
         {%csrf_token%}
-        <button type="submit" class="btn btn-success btn-block">Finish!</button>
+        <button type="submit" class="btn btn-success btn-block">Zakończ</button>
     </form>
     
     <form method="POST" action="{% url 'remove' pk=todo.pk user=user.username %}">
         {%csrf_token%}
-        <button type="submit" class="btn btn-danger btn-block">Delete</button>
+        <button type="submit" class="btn btn-danger btn-block">Usuń</button>
     </form>
 {%endif%}
 

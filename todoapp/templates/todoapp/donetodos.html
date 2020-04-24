@@ -1,8 +1,10 @@
 {% extends "todoapp/base.html" %}
 
 {% block content %}
-<h1>Done:</h1>
-<br>
+<div class="d-flex justify-content-center">
+    <h1>Ukończone zadania</h1>
+</div>
+
 {% for todo_el in todos_user %}
     <a href="{% url 'edittodo' pk=todo_el.pk %}">
         {%if todo_el.important%}
