@@ -2,8 +2,9 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<h1>Login</h1>
-<br>
+<div class="d-flex justify-content-center">
+    <h1>Logowanie</h1>
+</div>
 <form method="POST">
     {% csrf_token %}
     {% bootstrap_form form %}
