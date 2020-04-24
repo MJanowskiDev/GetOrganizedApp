@@ -1,7 +1,10 @@
 {% extends "todoapp/base.html" %}
 
 {% block content %}
-<h1>To Do:</h1>
+<div class="d-flex justify-content-center">
+    <h1>To Do:</h1>
+</div>
+
 <br>
 {% for todo_el in todos_user %}
     <a href="{% url 'edittodo' pk=todo_el.pk %}">

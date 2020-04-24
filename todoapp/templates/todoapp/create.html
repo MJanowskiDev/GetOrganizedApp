@@ -1,7 +1,10 @@
 {% extends "todoapp/base.html" %}
 {%load bootstrap4%}
 {% block content %}
-<h1>Create ToDo</h1>
+<div class="d-flex justify-content-center">
+    <h1>Create ToDo</h1>
+</div>
+
 <br>
 <form method="POST">
     {%bootstrap_form form%}
