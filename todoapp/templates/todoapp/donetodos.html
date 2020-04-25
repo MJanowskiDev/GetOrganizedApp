@@ -6,21 +6,7 @@
 </div>
 
 {% for todo_el in todos_user %}
-    <a href="{% url 'edittodo' pk=todo_el.pk %}">
-        {%if todo_el.important%}
-        <div class="alert alert-danger" role="alert">
-            <h4>{{todo_el.title}}</h4>
-            <small>{{todo_el.memo}}</small>
-        </div>
-        {%else%}
-        <div class="alert alert-primary" role="alert">
-            <h4>{{todo_el.title}}</h4>
-            <small>{{todo_el.memo}}</small>
-        </div>
-        {%endif%}
-        <hr>
-    </a>
-    
+    {% include "todoapp/_todoelement.html" %}   
 {%endfor%}
 
 {%endblock%}

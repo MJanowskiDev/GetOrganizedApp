@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from .models import ToDo
+from django.forms import BooleanField
+import django.forms as forms
 
 class UserCreateForm(UserCreationForm):
     class Meta:
@@ -32,3 +34,5 @@ class MakeComplete(ModelForm):
     class Meta:
         model = ToDo
         fields = ['done', 'datecompleted']
+
+        

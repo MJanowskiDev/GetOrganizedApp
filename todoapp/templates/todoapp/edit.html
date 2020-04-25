@@ -19,6 +19,14 @@
         <button type="submit" class="btn btn-danger btn-block">Usuń</button>
     </form>
 
+    <form method="POST" action="{% url 'revertcomplete' pk=todo.pk %}">
+        {%csrf_token%}
+        <button type="submit" class="btn btn-primary btn-block">Przywróc</button>
+    </form>
+
+
+    
+
 {%else%} 
 
     <form method="POST">

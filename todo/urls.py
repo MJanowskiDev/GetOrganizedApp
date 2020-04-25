@@ -24,6 +24,7 @@ urlpatterns = [
     path('current/<username>', views.TodosView.as_view(), name = 'currenttodos'),
     path('done/<username>', views.DoneTodosView.as_view(), name = 'donetodos'),
     path('finish/<pk>', views.CompleteTodoView.as_view(), name = 'makecomplete'),
+    path('revert/<pk>', views.RevertComplete.as_view(), name = 'revertcomplete'),
     path('remove/<user>/<pk>', views.DeleteTodoView.as_view(), name = 'remove'),
     path('create/', views.CreateTodoView.as_view(), name = 'createtodo' ),
     path('edit/<pk>', views.EditTodoView.as_view(), name = 'edittodo' ),

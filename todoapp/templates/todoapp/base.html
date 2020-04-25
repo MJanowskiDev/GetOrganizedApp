@@ -25,19 +25,31 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-                <a class="nav-item nav-link active" href="{% url 'currenttodos' username=user.username %}">Bieżące zadania <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link active" href="{% url 'donetodos' username=user.username %}">Ukończone zadania <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link active" href="{% url 'createtodo'  %}">Utwórz zadanie <span class="sr-only">(current)</span></a>
+
+                <div class="dropdown nav-item ">
+                  <a class=" dropdown-toggle nav-link nav-link active" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Zadania
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username %}">Bieżące</a>
+                    <a class="dropdown-item" href="{% url 'donetodos' username=user.username %}">Ukończone</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'createtodo'  %}">Utwórz</a>
+
+                  </div>
+                </div>
+
                 <a class="nav-item nav-link active" href="{% url 'logout' %}">Wyloguj</a>
                 <a class="nav-item nav-link inactive" >Użytkownik: {{user.username}}</a>
-            {% else %}
+            
+
+
+                
+                {% else %}
                 <a class="nav-item nav-link active" href="{% url 'signupuser' %}">Rejestracja</a>
                 <a class="nav-item nav-link active" href="{% url 'login' %}">Logowanie</a>
             {% endif %}
-
-
-
-
+ 
           </div>
         </div>
       </nav>

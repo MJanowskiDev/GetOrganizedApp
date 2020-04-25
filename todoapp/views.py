@@ -128,4 +128,26 @@ class CompleteTodoView(UpdateView,LoginRequiredMixin):
         return super().form_valid(form)
 
 
-        
+class RevertComplete(UpdateView,LoginRequiredMixin):
+    redirect_field_name = 'todoapp/current.html'
+    form_class = MakeComplete
+    model = models.ToDo
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        self.old_queryset = super().get_queryset()
+        self.todo_user = super().get_queryset().filter(pk=self.kwargs.get('pk'))
+        user_id = self.todo_user.values('user')
+
+        if ((self.request.user.id) != (user_id.get()['user'])):
+            return HttpResponseNotFound('<h1>Page not found</h1>') 
+                
+        return super().get(request, *args, **kwargs)
+
+    def form_valid(self,form):
+        self.object = form.save(commit = False)
+        self.object.done = False
+        self.object.save()
+        return super().form_valid(form)       
