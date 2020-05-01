@@ -26,7 +26,7 @@ class EditTodoForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['tags'].widget.attrs['placeholder'] = 'Tagi oddzielone ,'
+        self.fields['tags'].widget.attrs['placeholder'] = 'Lista hashtagów oddzielona przecinkami'
 
     class Meta:
         model = ToDo
@@ -38,7 +38,7 @@ class EditTodoForm(ModelForm):
             'tags':'Hashtagi'}
 
         widgets = {
-            'memo': forms.Textarea(attrs={'rows':4})
+            'memo': forms.Textarea(attrs={'rows':2})
         }
 
 class MakeComplete(ModelForm):

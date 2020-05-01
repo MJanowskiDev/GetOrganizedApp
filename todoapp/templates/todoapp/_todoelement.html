@@ -1,36 +1,41 @@
 
-    {%if todo_el.done%}
-        <div class="card text-white bg-success">
-    {%else%}
-        {%if todo_el.important%}    
-        <div class="card text-white bg-danger">
-        {%else%}
-        <div class="card text-white bg-info">
-        {%endif%}
-    {%endif%}
+        <div class="card text-dark bg-light">
+
     <div class="cardlink">
-        <a  href="{% url 'edittodo' pk=todo_el.pk %}">
-            <div class="card-header">
-                    {{todo_el.title}}
+        <a  href="{% url 'showtask' pk=todo_el.pk %}">
+            
+            {%if todo_el.done%}
+            <div class="card-header text-white bg-success">
+            {%else%}
+            {%if todo_el.important%}
+            <div class="card-header text-white bg-danger">
+            {%else%}
+            <div class="card-header text-white bg-info">
+            {%endif%}
+            {%endif%}
+            {{todo_el.title}}
             </div>
+
         </a>
     </div>
 
 
         <div class="d-flex">
             <div class="mr-auto p-2">
-                <small>
+
                 {%if todo_el.tags%}
-                    {%for tag in todo_el.tags.all%}
+
                     <div class="cardlink"> 
-                    <a href="{% url 'tagsview' username=todo_el.user tag=tag.slug %}">
+                        {%for tag in todo_el.tags.all%}
+                    <a class="btn btn-outline-dark text-dark btn-sm" href="{% url 'tagsview' username=todo_el.user tag=tag.slug %}">
                         #{{tag}}&nbsp
                     </a>
-                </div>
-
                     {%endfor%}
+                    </div>
+
+
                 {%endif%}
-                </small>
+
             </div>
             <div class="p-2">
                 {%if todo_el.done%}

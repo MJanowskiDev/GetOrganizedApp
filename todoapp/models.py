@@ -16,7 +16,7 @@ class ToDo(models.Model):
     important = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
     user = models.ForeignKey(auth.models.User, on_delete=models.CASCADE, related_name='todo')
-    tags = TaggableManager(help_text='Lista hashtagów oddzielona przecinkami')
+    tags = TaggableManager(help_text='Lista hashtagów oddzielona przecinkami', blank = True)
 
     def __str__(self):
         return self.title

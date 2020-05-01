@@ -1,0 +1,13 @@
+{% extends "todoapp/base.html" %}
+
+{%block content%}
+
+    {%for x in single_todo%} 
+
+        <div class="jumbotron">
+            {% include "todoapp/_tododetail.html" %}
+        </div>
+    {%endfor%}
+
+{%endblock%}
+

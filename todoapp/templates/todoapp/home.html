@@ -5,4 +5,56 @@
     <h1>Witaj w aplikacji Get Organized!</h1>
     <p>Prostej aplikacji do zarządzania zadaniami</p>
 </div>
+
+<div class="card bg-light mb-3">
+    <div class="card-header">
+        <h3>Zadania</h3>
+    </div>
+    <div class="card-body">
+    <h5 class="card-title" >Listy:</h5>
+    <a class="btn btn-info btn btn-sm" href="{% url 'currenttodos' username=user.username %}">Bieżące</a>
+    <a class="btn btn-info btn btn-sm" href="{% url 'donetodos' username=user.username %}">Ukończone</a>
+    <hr>  
+    <h5 class="card-title">Hashtagi:</h5>
+      {% for todo_el in todos_unique_tags %}
+
+        <a class="btn btn-outline-secondary btn-sm" href="{% url 'tagsview' username=logged_user tag=todo_el.slug %}">
+            #{{todo_el.name}}&nbsp
+        </a>
+    {%endfor%}
+
+    </div>
+  </div>
+
+
+  <div class="card bg-light mb-3">
+    <div class="card-header">
+        <h3>Język Markdown</h3>
+    </div>
+    <div class="card-body">
+    <h5 class="card-title" >Kod źródłowy</h5>
+    # Nagłówek 1 ## Nagłówek 2 ### Nagłówek 3
+    <hr>
+    Każdy paragraf jest rozdzielony pustą linią.
+    <hr>
+    Słowa można *pochylić*, **pogrubić**, i ~~przekreślić~~.
+    <hr>
+    Tak tworzy się [link] (http://google.com).
+    <hr>
+     Przykładowa lista:
+     <br>
+    * pierwsza
+    <br>
+    * druga
+    <hr>
+    Lista numerowana:
+    <br>
+    1. pierwsza
+    <br>
+    2. druga
+
+    </div>
+  </div>
+
 {%endblock%}
+

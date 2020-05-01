@@ -1,0 +1,59 @@
+
+{% load my_todo_tags %}
+    <div class="card  text-dark bg-light">
+
+    {%if x.done%}
+    <div class="card-header text-center p-2 text-white bg-success">
+    {%else%}
+    {%if x.important%}
+    <div class="card-header text-center p-2 text-white bg-danger">
+    {%else%}
+    <div class="card-header text-center p-2 text-white bg-info">
+    {%endif%}
+    {%endif%}
+    <h3>{{x.title}}</h3>
+    </div>
+</div>
+    <div class="d-flex">
+        
+        <div class="mr-auto p-2">
+            <small>
+            {%if x.tags%}
+
+                <div class="cardlink"> 
+                    {%for tag in x.tags.all%}
+                <a class="btn btn-outline-secondary text-dark btn-sm" href="{% url 'tagsview' username=x.user tag=tag.slug %}">
+                    #{{tag}}&nbsp
+                </a>
+                {%endfor%}
+                </div>
+
+
+            {%endif%}
+            </small>
+        </div>
+        <div class="p-2">
+            {%if x.done%}
+            <small>Ukończono: {{ x.datecompleted|date:"D d M Y" }} &nbsp;</small>
+            {%else%}
+            <small>Utworzono: {{ x.created|date:"D d M Y" }} &nbsp;</small>
+            {%endif%}
+        </div>
+
+      </div>
+      <hr>
+      <div class="mr-auto p-2">
+        {{x.memo|my_markdown}}
+    </div>
+    <hr>
+      <div class="p-2">
+        <a class="btn btn-primary btn-block " href="{% url 'edittodo' pk=x.pk %}" role="button">Edytuj</a>
+    </div>
+    <div class="p-2">
+        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'currenttodos' username=user.username %}">Idź do: Bieżące</a>
+        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'donetodos' username=user.username %}">Idź do: Ukończone</a>
+    </div>
+
+    
+
+</div>
