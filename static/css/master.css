@@ -1,0 +1,8 @@
+.cardlink > a:link{
+    color: rgb(255, 255, 255);
+}
+
+.cardlink > a:visited{
+    color: rgb(255, 255, 255);
+}
+

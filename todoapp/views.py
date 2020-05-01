@@ -15,6 +15,10 @@ from django.utils import timezone
 
 from django.http import HttpResponseNotFound
 
+from taggit.models import Tag
+
+from django.shortcuts import get_object_or_404
+
 
 class SignUpView(CreateView):
     form_class = forms.UserCreateForm
@@ -29,6 +33,20 @@ class SiteLoginView(auth_views.LoginView):
 class SiteLogoutView(auth_views.LogoutView):
     template_name = 'todoapp/logout.html'
 
+class TagView(ListView,LoginRequiredMixin):
+    template_name = 'todoapp/tagview.html'
+    model = models.ToDo
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, slug=self.kwargs.get('tag'))
+        self.todo_tag = super().get_queryset().filter(user__username__iexact=self.kwargs.get('username'),tags__in=[tag])
+        return self.todo_tag.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['todos_tag'] = self.todo_tag.all()
+        context['tag_name'] = self.kwargs.get('tag')
+        return context
 
 class TodosView(ListView,LoginRequiredMixin):
     template_name = 'todoapp/currenttodos.html'

@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import auth
 from django.shortcuts import reverse
-
+from taggit.managers import TaggableManager
 
 
 class User(auth.models.User,auth.models.PermissionsMixin):
@@ -16,6 +16,7 @@ class ToDo(models.Model):
     important = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
     user = models.ForeignKey(auth.models.User, on_delete=models.CASCADE, related_name='todo')
+    tags = TaggableManager(help_text='Lista hashtagów oddzielona przecinkami')
 
     def __str__(self):
         return self.title
@@ -25,3 +26,5 @@ class ToDo(models.Model):
 
     class Meta:
         ordering = ['-created']
+
+

@@ -1,4 +1,4 @@
-<a href="{% url 'edittodo' pk=todo_el.pk %}">
+
     {%if todo_el.done%}
         <div class="card text-white bg-success">
     {%else%}
@@ -8,19 +8,39 @@
         <div class="card text-white bg-info">
         {%endif%}
     {%endif%}
+    <div class="cardlink">
+        <a  href="{% url 'edittodo' pk=todo_el.pk %}">
+            <div class="card-header">
+                    {{todo_el.title}}
+            </div>
+        </a>
+    </div>
 
-        <div class="card-header">
-                {{todo_el.title}}
-        </div>
 
-            <div class="d-flex justify-content-end">
+        <div class="d-flex">
+            <div class="mr-auto p-2">
+                <small>
+                {%if todo_el.tags%}
+                    {%for tag in todo_el.tags.all%}
+                    <div class="cardlink"> 
+                    <a href="{% url 'tagsview' username=todo_el.user tag=tag.slug %}">
+                        #{{tag}}&nbsp
+                    </a>
+                </div>
+
+                    {%endfor%}
+                {%endif%}
+                </small>
+            </div>
+            <div class="p-2">
                 {%if todo_el.done%}
                 <small>Ukończono: {{ todo_el.datecompleted|date:"D d M Y" }} &nbsp;</small>
                 {%else%}
                 <small>Utworzono: {{ todo_el.created|date:"D d M Y" }} &nbsp;</small>
                 {%endif%}
-
             </div>
+          </div>
+
     </div>
-</a>
+
 <hr>

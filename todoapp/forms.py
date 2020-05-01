@@ -15,20 +15,31 @@ class UserCreateForm(UserCreationForm):
 class TodoForm(ModelForm):
     class Meta:
         model = ToDo
-        fields = ['title', 'memo', 'important']
+        fields = ['title', 'tags', 'memo', 'important']
 
-        labels = {  'title':'Nazwa zadania',
-            'memo':'Opis zadania',
-            'important':'Oznacz jako pilne'}
+        labels = {  'title':'Nazwa',
+            'memo':'Opis',
+            'important':'Oznacz jako pilne',
+            'tags':'Hashtagi'}
 
 class EditTodoForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'].widget.attrs['placeholder'] = 'Tagi oddzielone ,'
+
     class Meta:
         model = ToDo
-        fields = ['title', 'memo', 'important' ]
+        fields = ['title', 'tags', 'memo', 'important']
 
-        labels = {  'title':'Nazwa zadania',
-            'memo':'Opis zadania',
-            'important':'Oznacz jako pilne'}
+        labels = {  'title':'Nazwa ',
+            'memo':'Opis ',
+            'important':'Oznacz jako pilne',
+            'tags':'Hashtagi'}
+
+        widgets = {
+            'memo': forms.Textarea(attrs={'rows':4})
+        }
 
 class MakeComplete(ModelForm):
     class Meta:
