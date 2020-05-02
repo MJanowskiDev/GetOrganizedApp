@@ -13,6 +13,13 @@ class UserCreateForm(UserCreationForm):
         super().__init__(*args,**kwargs)
 
 class TodoForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'].widget.attrs['placeholder'] = 'Lista hashtagów oddzielona przecinkami'
+
+        self.fields['title'].widget.attrs['autocomplete'] = 'off'
+        self.fields['tags'].widget.attrs['autocomplete'] = 'off'
+        self.fields['memo'].widget.attrs['autocomplete'] = 'off'
     class Meta:
         model = ToDo
         fields = ['title', 'tags', 'memo', 'important']
@@ -27,6 +34,10 @@ class EditTodoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['tags'].widget.attrs['placeholder'] = 'Lista hashtagów oddzielona przecinkami'
+
+        self.fields['title'].widget.attrs['autocomplete'] = 'off'
+        self.fields['tags'].widget.attrs['autocomplete'] = 'off'
+        self.fields['memo'].widget.attrs['autocomplete'] = 'off'
 
     class Meta:
         model = ToDo

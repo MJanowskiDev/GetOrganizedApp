@@ -41,12 +41,19 @@
                     
                 {%endif%}
                 </div>
+                &nbsp;
                 <div class="col-0">
 
                     <form method="POST" action="{% url 'remove' pk=todo_el.pk user=user.username %}">
                         {%csrf_token%}
                         <button type="submit" ><i class="fas fa-trash-alt fa-lg"></i></button>
                     </form>
+                </div>
+                &nbsp;
+                <div class="col-0">
+                    <button type="submit" > 
+                            <a class="special-link" href="{% url 'edittodo' pk=todo_el.pk %}"><i class="fas fa-edit fa-lg"></i></a>
+                    </button> 
                 </div>
             </div>
 
@@ -77,6 +84,7 @@
                 {%endif%}
 
             </div>
+            
             <div class="p-2">
                 {%if todo_el.done%}
                 <small>Ukończono: {{ todo_el.datecompleted|date:"D d M Y" }} &nbsp;</small>
