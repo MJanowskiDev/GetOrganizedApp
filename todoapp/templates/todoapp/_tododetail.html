@@ -50,8 +50,8 @@
         <a class="btn btn-primary btn-block " href="{% url 'edittodo' pk=x.pk %}" role="button">Edytuj</a>
     </div>
     <div class="p-2">
-        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'currenttodos' username=user.username %}">Idź do: Bieżące</a>
-        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'donetodos' username=user.username %}">Idź do: Ukończone</a>
+        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'currenttodos' username=user.username done=0 %}">Idź do: Bieżące</a>
+        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'currenttodos' username=user.username done=1 %}">Idź do: Ukończone</a>
     </div>
 
     

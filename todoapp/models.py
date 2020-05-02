@@ -22,7 +22,7 @@ class ToDo(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('currenttodos', kwargs={'username': self.user.username})
+        return reverse('currenttodos', kwargs={'username': self.user.username, 'done':0})
 
     class Meta:
         ordering = ['-created']

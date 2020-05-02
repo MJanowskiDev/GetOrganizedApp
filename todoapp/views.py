@@ -53,26 +53,16 @@ class TodosView(ListView,LoginRequiredMixin):
     model = models.ToDo
 
     def get_queryset(self):
-        self.todo_user = super().get_queryset().filter(user__username__iexact=self.kwargs.get('username'),done=False)#User_model.objects.prefetch_related("todo").filter(user=self.kwargs.get("user"))
+        self.todo_user = super().get_queryset().filter( user__username__iexact=self.kwargs.get('username'),
+                                                        done=bool(self.kwargs.get('done')))
         return self.todo_user.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['todos_user'] = self.todo_user.all()
+        context['done_field'] = self.kwargs.get('done')
         return context
 
-class DoneTodosView(ListView,LoginRequiredMixin):
-    template_name = 'todoapp/donetodos.html'
-    model = models.ToDo
-
-    def get_queryset(self):
-        self.todo_user = super().get_queryset().filter(user__username__iexact=self.kwargs.get('username'), done=True)
-        return self.todo_user.all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['todos_user'] = self.todo_user.all()
-        return context
 
 class HomeView(ListView):
     template_name = 'todoapp/home.html'
@@ -135,7 +125,7 @@ class DeleteTodoView(DeleteView,LoginRequiredMixin):
     model = models.ToDo
 
     def get_success_url(self, **kwargs): 
-        return reverse('currenttodos', kwargs={'username': self.kwargs.get('user')})
+        return reverse('currenttodos', kwargs={'username': self.kwargs.get('user'),'done':0})
 
     def get_queryset(self):
         queryset = super().get_queryset()

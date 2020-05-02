@@ -21,9 +21,7 @@ urlpatterns = [
     path('login/', views.SiteLoginView.as_view(), name = 'login'),
     path('logout/', views.SiteLogoutView.as_view(), name = 'logout'),
     path('signup/', views.SignUpView.as_view(), name = 'signupuser' ),
-    path('current/<username>', views.TodosView.as_view(), name = 'currenttodos'),
-    path('done/<username>', views.DoneTodosView.as_view(), name = 'donetodos'),
-
+    path('current/<username>/<int:done>', views.TodosView.as_view(), name = 'currenttodos'),
     path('tag/<username>/<tag>', views.TagView.as_view(), name = 'tagsview'),
     path('finish/<pk>', views.CompleteTodoView.as_view(), name = 'makecomplete'),
     path('revert/<pk>', views.RevertComplete.as_view(), name = 'revertcomplete'),
