@@ -10,8 +10,8 @@
     {%endif%}
     {%endif%}
 
-    <div class="row">
-        <div class="col-10">
+    <div class="d-flex">
+        <div class="mr-auto p-2">
             <div class="cardlink">
                 <a  href="{% url 'showtask' pk=todo_el.pk %}">
                     
@@ -21,38 +21,39 @@
                 </a>
             </div>
         </div>
-        <div class="col align-self-center">
-            <div class="row justify-content-end">
-                    <div class="col-0">
+        <div class="p-2">
+
+                
+            <div class="row align-items-end">
+                <div class="col-0">
                     {%if done_field %}
-                        
-                        <form method="POST" action="{% url 'revertcomplete' pk=todo_el.pk %}">
-                            {%csrf_token%}
-                            <button type="submit"><i class="fas fa-history fa-lg"></i></button>
-                        </form>
-                    {%else%}
+                                    
+                    <form method="POST" action="{% url 'revertcomplete' pk=todo_el.pk %}">
+                        {%csrf_token%}
+                        <button type="submit"><i class="fas fa-history fa-lg"></i></button>
+                    </form>
+                {%else%}
 
-                        <form method="POST" action="{% url 'makecomplete' pk=todo_el.pk %}">
-                            {%csrf_token%}
-                            <button type="submit" ><i class="fas fa-check-circle fa-lg"></i></button>
-                        </form>
-                        
-                    {%endif%}
-                    </div>
-                    &nbsp;
-                    <div class="col-0">
-                        <form method="POST" action="{% url 'remove' pk=todo_el.pk user=user.username %}">
-                            {%csrf_token%}
-                            <button type="submit" ><i class="fas fa-trash-alt fa-lg"></i></button>
-                        </form>
-                    </div>
+                    <form method="POST" action="{% url 'makecomplete' pk=todo_el.pk %}">
+                        {%csrf_token%}
+                        <button type="submit" ><i class="fas fa-check-circle fa-lg"></i></button>
+                    </form>
+                    
+                {%endif%}
+                </div>
+                <div class="col-0">
 
+                    <form method="POST" action="{% url 'remove' pk=todo_el.pk user=user.username %}">
+                        {%csrf_token%}
+                        <button type="submit" ><i class="fas fa-trash-alt fa-lg"></i></button>
+                    </form>
+                </div>
+            </div>
 
             </div>
             
         </div>
-    </div>
-</div>
+
 
 
 
@@ -66,8 +67,8 @@
 
                     <div class="cardlink"> 
                         {%for tag in todo_el.tags.all%}
-                    <a class="btn btn-outline-dark text-dark btn-sm" href="{% url 'tagsview' username=todo_el.user tag=tag.slug %}">
-                        #{{tag}}&nbsp
+                    <a  href="{% url 'tagsview' username=todo_el.user tag=tag.slug %}">
+                        <small>#{{tag}}&nbsp</small>
                     </a>
                     {%endfor%}
                     </div>
@@ -86,5 +87,5 @@
           </div>
 
     </div>
-
+</div>
 <hr>
