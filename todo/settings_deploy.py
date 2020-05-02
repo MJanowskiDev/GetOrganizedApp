@@ -26,7 +26,7 @@ SECRET_KEY = '=@y++0%jc(!1_0$h=z$qi9&cv3&8-aj+hc1%%7*vh$6fcj9f98'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['www.ferworwalki.pythonanywhere.com']
+ALLOWED_HOSTS = ['ferworwalki.pythonanywhere.com']
 
 
 # Application definition
