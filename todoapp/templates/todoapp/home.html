@@ -13,9 +13,25 @@
         <h3>Zadania</h3>
     </div>
     <div class="card-body">
+    <h5>Nowe zadanie</h5>
+
+    <button type="button" href="/create/" class="btn btn-primary">
+      <a class="" href="/create/">Utwórz</a> 
+    </button>
+
+    <hr>
     <h5 class="card-title" >Listy:</h5>
-    <a class="btn btn-info btn btn-sm" href="{% url 'currenttodos' username=user.username done=0 %}">Bieżące</a>
-    <a class="btn btn-info btn btn-sm" href="{% url 'currenttodos' username=user.username done=1 %}">Ukończone</a>
+
+    <button type="button" href="/create/" class="btn btn-primary">
+      <a  href="{% url 'currenttodos' username=user.username done=0 %}">Bieżące</a>
+    </button>
+
+    <button type="button" href="/create/" class="btn btn-primary">
+      <a  href="{% url 'currenttodos' username=user.username done=1 %}">Ukończone</a>
+    </button>
+
+
+
     <hr>  
     <h5 class="card-title">Hashtagi:</h5>
       {% for todo_el in todos_unique_tags %}
