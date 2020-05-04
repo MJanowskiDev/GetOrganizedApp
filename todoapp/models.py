@@ -16,15 +16,28 @@ class ToDo(models.Model):
     important = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
     user = models.ForeignKey(auth.models.User, on_delete=models.CASCADE, related_name='todo')
+
+    shared_users_str = models.CharField(max_length=250, blank = True)
     tags = TaggableManager(help_text='Lista hashtagów oddzielona przecinkami', blank = True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('currenttodos', kwargs={'username': self.user.username, 'done':0})
+        return reverse('currenttodos', kwargs={'username': self.user.username, 'done':0, 'shared':0})
 
     class Meta:
         ordering = ['-created']
 
+class ToDoComments(models.Model):
+    todo = models.ForeignKey(to=ToDo, on_delete=models.CASCADE,related_name='comments_todo')
+    username = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now=True)
+    body = models.TextField()
+    
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        ordering = ['-created']
 

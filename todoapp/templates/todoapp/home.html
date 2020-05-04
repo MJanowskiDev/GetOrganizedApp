@@ -15,20 +15,19 @@
     <div class="card-body">
     <h5>Nowe zadanie</h5>
 
-    <button type="button" href="/create/" class="btn btn-primary">
-      <a class="" href="/create/">Utwórz</a> 
-    </button>
+
+    <a class="btn btn-primary text-white" href="/create/">Utwórz</a> 
+
 
     <hr>
     <h5 class="card-title" >Listy:</h5>
 
-    <button type="button" href="/create/" class="btn btn-primary">
-      <a  href="{% url 'currenttodos' username=user.username done=0 %}">Bieżące</a>
-    </button>
+    <a class="btn btn-primary text-white"  href="{% url 'currenttodos' username=user.username done=0 shared=0 %}">Bieżące</a>
 
-    <button type="button" href="/create/" class="btn btn-primary">
-      <a  href="{% url 'currenttodos' username=user.username done=1 %}">Ukończone</a>
-    </button>
+    <a class="btn btn-primary text-white"  href="{% url 'currenttodos' username=user.username done=1 shared=0 %}">Ukończone</a>
+
+    <a class="btn btn-primary text-white"  href="{% url 'currenttodos' username=user.username done=0 shared=1 %}">Udostępnione</a>
+    
 
 
 

@@ -21,6 +21,10 @@
                 </a>
             </div>
         </div>
+
+        {%if shared_field %}
+             <small>Utworzone przez: {{todo_el.user.username}}</small> 
+        {%else%}
         <div class="justify-content-end col-0 p-2">
 
                 
@@ -61,6 +65,9 @@
             </div>
 
             </div>
+        {%endif%}
+
+
             
         </div>
 
@@ -71,7 +78,7 @@
 
 
         <div class="d-flex">
-            <div class="mr-auto p-2">
+            <div class="mr-auto p-2 col-7">
 
                 {%if todo_el.tags%}
 
@@ -88,12 +95,15 @@
 
             </div>
             
-            <div class="p-2">
+            <div class="justify-content-end col-0 p-2">
+
+                <div class="row align-items-end">
                 {%if todo_el.done%}
-                <small>Ukończono: {{ todo_el.datecompleted|date:"D d M Y" }} &nbsp;</small>
+                <small>Ukończono: {{ todo_el.datecompleted|date:"D d M Y" }}</small>
                 {%else%}
-                <small>Utworzono: {{ todo_el.created|date:"D d M Y" }} &nbsp;</small>
+                <small>Utworzono: {{ todo_el.created|date:"D d M Y" }} </small>
                 {%endif%}
+                </div>
             </div>
           </div>
 

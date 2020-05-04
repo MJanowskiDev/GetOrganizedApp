@@ -4,16 +4,18 @@ from django.views.generic import CreateView,TemplateView,FormView,DetailView,Lis
 from django.contrib.auth.forms import UserCreationForm
 from todoapp import forms
 from django.contrib.auth import views as auth_views
-from .forms import TodoForm,EditTodoForm,MakeComplete
+from .forms import TodoForm,EditTodoForm,MakeComplete,ShareTodoForm, CommentBodyForm
 from . import models
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.views.generic.edit import FormMixin, SingleObjectMixin
 
 from django.contrib.auth import get_user_model, get_user
 User_model = get_user_model()
 
 from django.utils import timezone
 
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
 
 from taggit.models import Tag
 
@@ -37,15 +39,19 @@ class TagView(ListView,LoginRequiredMixin):
     template_name = 'todoapp/tagview.html'
     model = models.ToDo
 
+
     def get_queryset(self):
         tag = get_object_or_404(Tag, slug=self.kwargs.get('tag'))
         self.todo_tag = super().get_queryset().filter(user__username__iexact=self.kwargs.get('username'),tags__in=[tag])
+        self.shared = self.todo_tag.filter(shared_users_str__isnull=False, shared_users_str__contains=self.request.user.username)
         return self.todo_tag.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['todos_tag'] = self.todo_tag.all()
         context['tag_name'] = self.kwargs.get('tag')
+        context['shared_field'] = self.shared
+
         return context
 
 class TodosView(ListView,LoginRequiredMixin):
@@ -53,14 +59,23 @@ class TodosView(ListView,LoginRequiredMixin):
     model = models.ToDo
 
     def get_queryset(self):
-        self.todo_user = super().get_queryset().filter( user__username__iexact=self.kwargs.get('username'),
-                                                        done=bool(self.kwargs.get('done')))
+
+
+
+        if self.kwargs.get('shared'):
+            self.todo_user = super().get_queryset().filter(shared_users_str__isnull=False, shared_users_str__contains=self.kwargs.get('username'))
+        else:
+            self.todo_user = super().get_queryset().filter( user__username__iexact=self.kwargs.get('username'),
+                                                            done=bool(self.kwargs.get('done')))
+        #print(self.todo_user.values('shared_users_str'))
+
         return self.todo_user.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['todos_user'] = self.todo_user.all()
         context['done_field'] = self.kwargs.get('done')
+        context['shared_field'] = self.kwargs.get('shared')
         return context
 
 
@@ -120,12 +135,17 @@ class EditTodoView(UpdateView,LoginRequiredMixin):
                    
         return super().get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form-share'] = ShareTodoForm()
+        return context
+
 
 class DeleteTodoView(DeleteView,LoginRequiredMixin):
     model = models.ToDo
 
     def get_success_url(self, **kwargs): 
-        return reverse('currenttodos', kwargs={'username': self.kwargs.get('user'),'done':0})
+        return reverse('currenttodos', kwargs={'username': self.kwargs.get('user'),'done':0, 'shared':0})
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -188,9 +208,33 @@ class ShowTaskView(ListView,LoginRequiredMixin):
 
     def get_queryset(self):
         self.todo_detail = super().get_queryset().filter(pk__iexact=self.kwargs.get('pk'))
+        self.shared = super().get_queryset().filter(shared_users_str__isnull=False, shared_users_str__contains=self.request.user.username,pk__iexact=self.kwargs.get('pk'))
         return self.todo_detail.all()
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['single_todo'] = self.todo_detail
+        context['shared_field'] = self.shared
+        context['comment_form'] = CommentBodyForm()
+        context['comments'] = models.ToDoComments.objects.filter(todo_id=self.kwargs.get('pk')).values()
         return context
+
+
+class ToDoCommentView(FormView, LoginRequiredMixin):
+    template_name = 'todoapp/comment.html'
+    form_class = CommentBodyForm
+
+    def get_success_url(self, **kwargs): 
+        return reverse('showtask', kwargs={'pk':self.kwargs.get('pk')})
+
+    def form_valid(self,form):
+        self.object = form.save(commit = False)
+        self.object.username = self.request.user.username
+        self.object.todo = models.ToDo.objects.get(id = self.kwargs.get('pk'))
+        self.object.save()
+        return super().form_valid(form)
+
+
+

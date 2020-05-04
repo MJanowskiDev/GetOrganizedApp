@@ -33,8 +33,9 @@
                   Zadania
                   </a>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=0 %}">Bieżące</a>
-                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=1 %}">Ukończone</a>
+                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=0 shared=0 %}">Bieżące</a>
+                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=1 shared=0 %}">Ukończone</a>
+                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=0 shared=1 %}">Udostępnione</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'createtodo'  %}">Utwórz</a>
 

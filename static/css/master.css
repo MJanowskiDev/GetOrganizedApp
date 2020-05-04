@@ -1,11 +1,11 @@
 .cardlink > a:link{
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .cardlink > a:visited{
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
-a, a:visited, a:hover, a:active {
-    color: inherit;
-  }
+.special-link, .special-link:visited, .special-link:hover, .special-link:active {
+  color: inherit;
+}

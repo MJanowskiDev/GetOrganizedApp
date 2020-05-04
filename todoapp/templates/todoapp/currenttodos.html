@@ -2,19 +2,27 @@
 
 {% block content %}
 <div class="jumbotron">
-
     <div class="d-flex justify-content-center">
         {%if done_field%}
             <h1>Ukończone</h1>
         {%else%}
-            <h1>Bieżące</h1>
+            {% if shared_field %}
+                <h1>Udostępnione</h1>
+            {%else%}
+                <h1>Bieżące</h1>
+            {% endif %}       
         {%endif%}
     </div>
 <hr>
 
+{%if todos_user%}
+    {% for todo_el in todos_user %}
+        {% include "todoapp/_todoelement.html" %}
+    {%endfor%}
+{%else%}
+    <h3>Brak zadań</h3>
+{%endif%}
 
-{% for todo_el in todos_user %}
-    {% include "todoapp/_todoelement.html" %}
-{%endfor%}
+
 </div>
 {%endblock%}

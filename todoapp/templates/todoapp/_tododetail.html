@@ -1,3 +1,4 @@
+{%load bootstrap4%}
 
 {% load my_todo_tags %}
     <div class="card  text-dark bg-light">
@@ -41,19 +42,75 @@
         </div>
 
       </div>
+      
       <hr>
-      <div class="mr-auto p-2">
+      <div class="mr-auto p-2 ">
         {{x.memo|my_markdown}}
     </div>
     <hr>
-      <div class="p-2">
-        <a class="btn btn-primary btn-block " href="{% url 'edittodo' pk=x.pk %}" role="button">Edytuj</a>
-    </div>
+    
+    {%if shared_field %}
+    {%else%}
+<div class="row justify-content-center">
+    <h4>Akcje:</h4>
+</div>
+
+
     <div class="p-2">
-        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'currenttodos' username=user.username done=0 %}">Idź do: Bieżące</a>
-        <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'currenttodos' username=user.username done=1 %}">Idź do: Ukończone</a>
+        <a class="btn btn-primary btn-block text-white " href="{% url 'edittodo' pk=x.pk %}" role="button">Edytuj</a>
+    </div>
+    {%endif%}
+
+
+    <div class="p-2">
+        <div class="row justify-content-center">
+            <a class="btn btn-outline-primary mx-2 my-1  btn-sm " href="{% url 'currenttodos' username=user.username done=0 shared=0 %}">Idź do: Bieżące</a>
+            <a class="btn btn-outline-primary mx-2 my-1   btn-sm" href="{% url 'currenttodos' username=user.username done=1 shared=0 %}">Idź do: Ukończone</a>
+            <a class="btn btn-outline-primary mx-2 my-1  btn-sm" href="{% url 'currenttodos' username=user.username done=0 shared=1 %}">Idź do: Udostępnione</a>
+        </div>
     </div>
 
+<hr>
+<div class="row justify-content-center">
+
+
+<h4>Komentarze:</h4>
+</div>
+<br>
+
+{%for comment in comments%}
     
+
+    <div class="card  border-secondary mb-3">
+        <div class="card-header">
+
+            <div class="row">
+                <div class="col-6">
+                     <h5>{{comment.username}}</h5>
+                </div>
+
+                <div class="col">
+                    <div class="row justify-content-end pr-2">
+                        <p>{{comment.created}}</p>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+          <p>{{comment.body|my_markdown}}</p>
+        </div>
+      </div>
+
+
+
+{% empty %}
+    <p>Nie ma jeszcze żadnych komentarzy.</p>
+{% endfor %}
+
+<a class="btn btn-primary btn-block text-white " href="{% url 'add_comment' pk=x.pk %}" role="button">Utwórz komentarz</a>
 
 </div>
