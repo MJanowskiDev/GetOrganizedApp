@@ -8,51 +8,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/7ae67aeffc.js" crossorigin="anonymous"></script>
+
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/master.css'%}">
+
     <title>Get Organized - zarządzaj swoimi zadaniami</title>
   </head>
+
   <body>
     <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary sticky-top">
       <a class="navbar-brand" href="{% url 'home' %}">
         <img src="https://img.icons8.com/cotton/64/000000/checklist--v1.png" width="40" height="40" alt="">
         Get Organized
       </a>
-        <!-- <a class="navbar-brand" href="{% url 'home' %}">Home</a> -->
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+       
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-
                 <div class="dropdown nav-item ">
                   <a class=" dropdown-toggle nav-link nav-link active" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Zadania
                   </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=0 shared=0 %}">Bieżące</a>
-                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=1 shared=0 %}">Ukończone</a>
-                    <a class="dropdown-item" href="{% url 'currenttodos' username=user.username done=0 shared=1 %}">Udostępnione</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'createtodo'  %}">Utwórz</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="{% url 'todo_app:currenttodos' username=user.username done=0 shared=0 %}">Bieżące</a>
+                      <a class="dropdown-item" href="{% url 'todo_app:currenttodos' username=user.username done=1 shared=0 %}">Ukończone</a>
+                      <a class="dropdown-item" href="{% url 'todo_app:currenttodos' username=user.username done=0 shared=1 %}">Udostępnione</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'todo_app:createtodo'  %}">Utwórz</a>
 
-                  </div>
+                    </div>
                 </div>
-
-                <a class="nav-item nav-link active" href="{% url 'logout' %}">Wyloguj</a>
-                <a class="nav-item nav-link inactive" >Użytkownik: {{user.username}}</a>
-            
-
-
-                
-                {% else %}
-                <a class="nav-item nav-link active" href="{% url 'signupuser' %}">Rejestracja</a>
-                <a class="nav-item nav-link active" href="{% url 'login' %}">Logowanie</a>
+                <a class="nav-item nav-link active" href="{% url 'auth_app:logout' %}">Wyloguj</a>
+            {% else %}
+                <a class="nav-item nav-link active" href="{% url 'auth_app:signupuser' %}">Rejestracja</a>
+                <a class="nav-item nav-link active" href="{% url 'auth_app:login' %}">Logowanie</a>
             {% endif %}
- 
           </div>
         </div>
       </nav>
@@ -62,13 +57,6 @@
 
         {% endblock %}
     </div>
-
-
-
-
-
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

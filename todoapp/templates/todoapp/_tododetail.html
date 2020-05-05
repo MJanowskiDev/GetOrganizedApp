@@ -1,116 +1,102 @@
 {%load bootstrap4%}
-
 {% load my_todo_tags %}
-    <div class="card  text-dark bg-light">
 
+    <div class="card  text-dark bg-light">
     {%if x.done%}
-    <div class="card-header text-center p-2 text-white bg-success">
+        <div class="card-header text-center p-2 text-white bg-success">
     {%else%}
-    {%if x.important%}
-    <div class="card-header text-center p-2 text-white bg-danger">
-    {%else%}
-    <div class="card-header text-center p-2 text-white bg-info">
+        {%if x.important%}
+            <div class="card-header text-center p-2 text-white bg-danger">
+        {%else%}
+            <div class="card-header text-center p-2 text-white bg-info">
+        {%endif%}
     {%endif%}
-    {%endif%}
+
     <h3>{{x.title}}</h3>
+    </div> 
     </div>
-</div>
+
     <div class="d-flex">
         
         <div class="mr-auto p-2">
             <small>
-            {%if x.tags%}
-
-                <div class="cardlink"> 
-                    {%for tag in x.tags.all%}
-                <a class="btn btn-outline-secondary text-dark btn-sm" href="{% url 'tagsview' username=x.user tag=tag.slug %}">
-                    #{{tag}}&nbsp
-                </a>
-                {%endfor%}
-                </div>
-
-
-            {%endif%}
+                {%if x.tags%}
+                    <div class="cardlink"> 
+                        {%for tag in x.tags.all%}
+                            <a class="btn btn-outline-secondary text-dark btn-sm" href="{% url 'todo_app:tagsview' username=x.user tag=tag.slug %}">
+                                #{{tag}}&nbsp
+                            </a>
+                        {%endfor%}
+                    </div>
+                {%endif%}
             </small>
         </div>
+
         <div class="p-2">
             {%if x.done%}
-            <small>Ukończono: {{ x.datecompleted|date:"D d M Y" }} &nbsp;</small>
+                <small>Ukończono: {{ x.datecompleted|date:"D d M Y" }} &nbsp;</small>
             {%else%}
-            <small>Utworzono: {{ x.created|date:"D d M Y" }} &nbsp;</small>
+                <small>Utworzono: {{ x.created|date:"D d M Y" }} &nbsp;</small>
             {%endif%}
         </div>
 
-      </div>
-      
-      <hr>
-      <div class="mr-auto p-2 ">
+    </div>
+    <hr>
+
+    <div class="mr-auto p-2 ">
         {{x.memo|my_markdown}}
     </div>
     <hr>
     
     {%if shared_field %}
     {%else%}
-<div class="row justify-content-center">
-    <h4>Akcje:</h4>
-</div>
+        <div class="row justify-content-center">
+            <h4>Akcje:</h4>
+        </div>
 
-
-    <div class="p-2">
-        <a class="btn btn-primary btn-block text-white " href="{% url 'edittodo' pk=x.pk %}" role="button">Edytuj</a>
-    </div>
+        <div class="p-2">
+            <a class="btn btn-primary btn-block text-white " href="{% url 'todo_app:edittodo' pk=x.pk %}" role="button">Edytuj</a>
+        </div>
     {%endif%}
 
 
     <div class="p-2">
         <div class="row justify-content-center">
-            <a class="btn btn-outline-primary mx-2 my-1  btn-sm " href="{% url 'currenttodos' username=user.username done=0 shared=0 %}">Idź do: Bieżące</a>
-            <a class="btn btn-outline-primary mx-2 my-1   btn-sm" href="{% url 'currenttodos' username=user.username done=1 shared=0 %}">Idź do: Ukończone</a>
-            <a class="btn btn-outline-primary mx-2 my-1  btn-sm" href="{% url 'currenttodos' username=user.username done=0 shared=1 %}">Idź do: Udostępnione</a>
+            <a class="btn btn-outline-primary mx-2 my-1  btn-sm " href="{% url 'todo_app:currenttodos' username=user.username done=0 shared=0 %}">Idź do: Bieżące</a>
+            <a class="btn btn-outline-primary mx-2 my-1   btn-sm" href="{% url 'todo_app:currenttodos' username=user.username done=1 shared=0 %}">Idź do: Ukończone</a>
+            <a class="btn btn-outline-primary mx-2 my-1  btn-sm" href="{% url 'todo_app:currenttodos' username=user.username done=0 shared=1 %}">Idź do: Udostępnione</a>
         </div>
     </div>
+    <hr>
 
-<hr>
-<div class="row justify-content-center">
+    <div class="row justify-content-center">
+        <h4>Komentarze:</h4>
+    </div>
+    <br>
 
-
-<h4>Komentarze:</h4>
-</div>
-<br>
-
-{%for comment in comments%}
-    
-
-    <div class="card  border-secondary mb-3">
-        <div class="card-header">
-
-            <div class="row">
-                <div class="col-6">
-                     <h5>{{comment.username}}</h5>
-                </div>
-
-                <div class="col">
-                    <div class="row justify-content-end pr-2">
-                        <p>{{comment.created}}</p>
+    {%for comment in comments%}
+        <div class="card  border-secondary mb-3">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6">
+                        <h5>{{comment.username}}</h5>
                     </div>
-                    
+                    <div class="col">
+                        <div class="row justify-content-end pr-2">
+                            <p>{{comment.created}}</p>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
+            <div class="card-body">
+                <p>{{comment.body|my_markdown}}</p>
+            </div>
         </div>
+    {% empty %}
+        <p>Nie ma jeszcze żadnych komentarzy.</p>
+    {% endfor %}
 
-        <div class="card-body">
-          <p>{{comment.body|my_markdown}}</p>
-        </div>
-      </div>
-
-
-
-{% empty %}
-    <p>Nie ma jeszcze żadnych komentarzy.</p>
-{% endfor %}
-
-<a class="btn btn-primary btn-block text-white " href="{% url 'add_comment' pk=x.pk %}" role="button">Utwórz komentarz</a>
+    <a class="btn btn-primary btn-block text-white " href="{% url 'todo_app:add_comment' pk=x.pk %}" role="button">Utwórz komentarz</a>
 
 </div>

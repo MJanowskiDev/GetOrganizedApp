@@ -1,14 +1,12 @@
-{% extends "todoapp/base.html" %}
-
+{% extends "homeviewapp\base.html" %}
 {%load bootstrap4%}
 
 {%block content%}
-<h3>Tworzenie komentarza</h3>
-<br>
-<form method="POST">
-    {%bootstrap_form form%}
-    {%csrf_token%}
-    <button type="submit" class="btn btn-primary btn-block">Wyślij</button>
-</form>
-
+    <h3>Tworzenie komentarza</h3>
+    <br>
+    <form method="POST">
+        {%bootstrap_form form%}
+        {%csrf_token%}
+        <button type="submit" class="btn btn-primary btn-block">Wyślij</button>
+    </form>
 {%endblock%}

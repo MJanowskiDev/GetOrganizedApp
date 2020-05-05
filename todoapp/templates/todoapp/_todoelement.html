@@ -1,112 +1,90 @@
 
 <div class="card text-dark bg-light">
     {%if todo_el.done%}
-    <div class="card-header text-white bg-success">
+        <div class="card-header text-white bg-success">
     {%else%}
-    {%if todo_el.important%}
-    <div class="card-header text-white bg-danger">
-    {%else%}
-    <div class="card-header text-white bg-info">
-    {%endif%}
+        {%if todo_el.important%}
+            <div class="card-header text-white bg-danger">
+        {%else%}
+            <div class="card-header text-white bg-info">
+        {%endif%}
     {%endif%}
 
     <div class="d-flex">
         <div class="mr-auto p-2 col-7">
             <div class="cardlink">
-                <a  href="{% url 'showtask' pk=todo_el.pk %}">
-                    
-
-                    {{todo_el.title}}
-
-                </a>
+                <a  href="{% url 'todo_app:showtask' pk=todo_el.pk %}">{{todo_el.title}}</a>
             </div>
         </div>
 
         {%if shared_field %}
              <small>Utworzone przez: {{todo_el.user.username}}</small> 
         {%else%}
-        <div class="justify-content-end col-0 p-2">
+            <div class="justify-content-end col-0 p-2">
 
-                
-            <div class="row align-items-end">
-                <div class="col-0">
-                    {%if done_field %}
-                                    
-                    <form method="POST" action="{% url 'revertcomplete' pk=todo_el.pk %}">
-                        {%csrf_token%}
-                        <button type="submit"><i class="fas fa-history fa-lg"></i></button>
-                    </form>
-                {%else%}
+                <div class="row align-items-end">
+                    <div class="col-0">
+                        {%if done_field %}              
+                            <form method="POST" action="{% url 'todo_app:revertcomplete' pk=todo_el.pk %}">
+                                {%csrf_token%}
+                                <button type="submit"><i class="fas fa-history fa-lg"></i></button>
+                            </form>
+                        {%else%}
+                            <form method="POST" action="{% url 'todo_app:makecomplete' pk=todo_el.pk %}">
+                                {%csrf_token%}
+                                <button type="submit" ><i class="fas fa-check-circle fa-lg"></i></button>
+                            </form>
+                        {%endif%}
+                    </div>
+                    &nbsp;
 
-                    <form method="POST" action="{% url 'makecomplete' pk=todo_el.pk %}">
-                        {%csrf_token%}
-                        <button type="submit" ><i class="fas fa-check-circle fa-lg"></i></button>
-                    </form>
-                    
-                {%endif%}
+                    <div class="col-0">
+                        <form method="POST" action="{% url 'todo_app:remove' pk=todo_el.pk user=user.username %}">
+                            {%csrf_token%}
+                            <button type="submit" ><i class="fas fa-trash-alt fa-lg"></i></button>
+                        </form>
+                    </div>
+                    &nbsp;
+
+                    <div class="col-0">
+                        <button type="submit" > 
+                                <a class="special-link" href="{% url 'todo_app:edittodo' pk=todo_el.pk %}"><i class="fas fa-edit fa-lg"></i></a>
+                        </button> 
+                    </div>
                 </div>
-                &nbsp;
-
-                <div class="col-0">
-
-                    <form method="POST" action="{% url 'remove' pk=todo_el.pk user=user.username %}">
-                        {%csrf_token%}
-                        <button type="submit" ><i class="fas fa-trash-alt fa-lg"></i></button>
-                    </form>
-                </div>
-
-                &nbsp;
-
-                <div class="col-0">
-                    <button type="submit" > 
-                            <a class="special-link" href="{% url 'edittodo' pk=todo_el.pk %}"><i class="fas fa-edit fa-lg"></i></a>
-                    </button> 
-                </div>
-            </div>
 
             </div>
         {%endif%}
 
 
             
-        </div>
-
-
-
-
-
-
-
-        <div class="d-flex">
-            <div class="mr-auto p-2 col-7">
-
-                {%if todo_el.tags%}
-
-                    <div class="cardlink"> 
-                        {%for tag in todo_el.tags.all%}
-                    <a  href="{% url 'tagsview' username=todo_el.user tag=tag.slug %}">
-                        <small>#{{tag}}&nbsp</small>
-                    </a>
-                    {%endfor%}
-                    </div>
-
-
-                {%endif%}
-
-            </div>
-            
-            <div class="justify-content-end col-0 p-2">
-
-                <div class="row align-items-end">
-                {%if todo_el.done%}
-                <small>Ukończono: {{ todo_el.datecompleted|date:"D d M Y" }}</small>
-                {%else%}
-                <small>Utworzono: {{ todo_el.created|date:"D d M Y" }} </small>
-                {%endif%}
-                </div>
-            </div>
-          </div>
-
     </div>
+
+
+    <div class="d-flex">
+        <div class="mr-auto p-2 col-7">
+            {%if todo_el.tags%}
+                <div class="cardlink"> 
+                    {%for tag in todo_el.tags.all%}
+                        <a  href="{% url 'todo_app:tagsview' username=todo_el.user tag=tag.slug %}">
+                            <small>#{{tag}}&nbsp</small>
+                        </a>
+                    {%endfor%}
+                </div>
+            {%endif%}
+        </div>
+        
+        <div class="justify-content-end col-0 p-2">
+            <div class="row align-items-end">
+                {%if todo_el.done%}
+                    <small>Ukończono: {{ todo_el.datecompleted|date:"D d M Y" }}</small>
+                {%else%}
+                    <small>Utworzono: {{ todo_el.created|date:"D d M Y" }} </small>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+
+</div>
 </div>
 <hr>

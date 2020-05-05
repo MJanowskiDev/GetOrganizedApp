@@ -1,12 +1,10 @@
 from django.db import models
-from django.contrib import auth
 from django.shortcuts import reverse
 from taggit.managers import TaggableManager
+from authapp import models as auth_models
 
-
-class User(auth.models.User,auth.models.PermissionsMixin):
-    def __str__(self):
-        return self.username
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class ToDo(models.Model):
     title = models.CharField(max_length=100)
@@ -15,7 +13,8 @@ class ToDo(models.Model):
     datecompleted = models.DateTimeField(null=True, blank = True)
     important = models.BooleanField(default=False)
     done = models.BooleanField(default=False)
-    user = models.ForeignKey(auth.models.User, on_delete=models.CASCADE, related_name='todo')
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='todo')
 
     shared_users_str = models.CharField(max_length=250, blank = True)
     tags = TaggableManager(help_text='Lista hashtagów oddzielona przecinkami', blank = True)
@@ -24,7 +23,7 @@ class ToDo(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('currenttodos', kwargs={'username': self.user.username, 'done':0, 'shared':0})
+        return reverse('todo_app:currenttodos', kwargs={'username': self.user.username, 'done':0, 'shared':0})
 
     class Meta:
         ordering = ['-created']

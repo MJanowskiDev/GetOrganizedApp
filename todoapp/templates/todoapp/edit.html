@@ -1,56 +1,47 @@
-{% extends "todoapp/base.html" %}
+{% extends "homeviewapp\base.html" %}
 {%load bootstrap4%}
+
 {% block content %}
-<div class="jumbotron">
+    <div class="jumbotron">
+        <div class="row justify-content-center">
+            <h3>Edycja zadania</h3>
+        </div>
 
+        {% if todo.done %}
+            <form method="POST">
+                {%bootstrap_form form%}
+                {%csrf_token%}
+            </form>
 
-<div class="d-flex justify-content-center">
-    <h3>Edycja zadania</h3>
-</div>
+            <form method="POST" action="{% url 'todo_app:remove' pk=todo.pk user=user.username %}">
+                {%csrf_token%}
+                <button type="submit" class="btn btn-sm btn-danger btn-block">Usuń</button>
+            </form>
 
+            <form method="POST" action="{% url 'todo_app:revertcomplete' pk=todo.pk %}">
+                {%csrf_token%}
+                <button type="submit" class="btn btn-sm btn-primary btn-block">Przywróć</button>
+            </form>
 
-{% if todo.done %}
+        {%else%} 
+            <form method="POST">
+                {%bootstrap_form form%}
+                {%csrf_token%}
+                <button type="submit" class="btn btn-sm btn-primary btn-block">Zapisz</button>
+            </form>
 
-    <form method="POST">
-        {%bootstrap_form form%}
-        {%csrf_token%}
-    </form>
+            <form method="POST" action="{% url 'todo_app:makecomplete' pk=todo.pk %}">
+                {%csrf_token%}
+                <button type="submit" class="btn btn-sm btn-success btn-block">Zakończ</button>
+            </form>
+            
+            <form method="POST" action="{% url 'todo_app:remove' pk=todo.pk user=user.username %}">
+                {%csrf_token%}
+                <button type="submit" class="btn btn-danger btn-sm btn-block">Usuń</button>
+            </form>
+        {%endif%}
 
-
-    <form method="POST" action="{% url 'remove' pk=todo.pk user=user.username %}">
-        {%csrf_token%}
-        <button type="submit" class="btn btn-sm btn-danger btn-block">Usuń</button>
-    </form>
-
-    <form method="POST" action="{% url 'revertcomplete' pk=todo.pk %}">
-        {%csrf_token%}
-        <button type="submit" class="btn btn-sm btn-primary btn-block">Przywróć</button>
-    </form>
-
-
-    
-
-{%else%} 
-
-    <form method="POST">
-        {%bootstrap_form form%}
-        {%csrf_token%}
-        <button type="submit" class="btn btn-sm btn-primary btn-block">Zapisz</button>
-    </form>
-
-    <form method="POST" action="{% url 'makecomplete' pk=todo.pk %}">
-        {%csrf_token%}
-        <button type="submit" class="btn btn-sm btn-success btn-block">Zakończ</button>
-    </form>
-    
-    <form method="POST" action="{% url 'remove' pk=todo.pk user=user.username %}">
-        {%csrf_token%}
-        <button type="submit" class="btn btn-danger btn-sm btn-block">Usuń</button>
-    </form>
-{%endif%}
-<br>
-<a class="btn btn-block btn-outline-primary btn-sm" href="{% url 'showtask' pk=todo.pk %}">Powrót</a>
-
-
-</div>
+        <br>
+        <a class="btn btn-block btn-outline-primary btn-sm" href="{% url 'todo_app:showtask' pk=todo.pk %}">Powrót</a>
+    </div>
 {%endblock%}

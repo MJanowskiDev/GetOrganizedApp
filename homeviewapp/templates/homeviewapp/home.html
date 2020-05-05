@@ -1,0 +1,71 @@
+{% extends "homeviewapp\base.html" %}
+
+
+{%block content%}
+
+  <div class="jumbotron">
+      <h1>Witaj w aplikacji Get Organized!</h1>
+      <p>Prostej aplikacji do zarządzania zadaniami</p>
+  </div>
+
+  {%if user.is_active%}
+
+      <div class="card bg-light mb-3">
+            <div class="card-header">
+                <h3>Zadania</h3>
+            </div>
+
+            <div class="card-body">
+              <h5>Nowe zadanie</h5>
+              <a class="btn btn-primary text-white" href="/todoapp/create/">Utwórz</a> 
+              <hr>
+
+              <h5 class="card-title" >Listy:</h5>
+              <a class="btn btn-primary text-white"  href="{% url 'todo_app:currenttodos' username=user.username done=0 shared=0 %}">Bieżące</a>
+              <a class="btn btn-primary text-white"  href="{% url 'todo_app:currenttodos' username=user.username done=1 shared=0 %}">Ukończone</a>
+              <a class="btn btn-primary text-white"  href="{% url 'todo_app:currenttodos' username=user.username done=0 shared=1 %}">Udostępnione</a>         
+              <hr>  
+
+              <h5 class="card-title">Hashtagi:</h5>
+              {% for todo_el in todos_unique_tags %}
+                <a class="btn btn-outline-secondary btn-sm" href="{% url 'todo_app:tagsview' username=logged_user tag=todo_el.slug %}">
+                    #{{todo_el.name}}&nbsp
+                </a>
+              {%endfor%}
+          </div>
+        </div>
+
+    <!-- TO REMOVE IN FUTURE -->
+        <div class="card bg-light mb-3">
+          <div class="card-header">
+              <h3>Język Markdown</h3>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title" >Kod źródłowy</h5>
+            # Nagłówek 1 ## Nagłówek 2 ### Nagłówek 3
+            <hr>
+            Każdy paragraf jest rozdzielony pustą linią.
+            <hr>
+            Słowa można *pochylić*, **pogrubić**, i ~~przekreślić~~.
+            <hr>
+            Tak tworzy się [link] (http://google.com).
+            <hr>
+            Przykładowa lista:
+            <br>
+            * pierwsza
+            <br>
+            * druga
+            <hr>
+            Lista numerowana:
+            <br>
+            1. pierwsza
+            <br>
+            2. druga
+
+          </div>
+        </div>
+  {%endif%}
+
+{%endblock%}
+
