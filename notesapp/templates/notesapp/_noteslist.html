@@ -1,0 +1,69 @@
+<div class="card border-secondary mb-3">
+
+    <div class="card-body text-secondary">
+        <a class="special-link" href="{% url 'notes_app:shownote' pk=x.pk %}  ">
+            <div class="row justify-content-center px-3">
+                <h3>{{x.title}}</h3>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="card-header ">
+        <grid class="row justify-content-center px-3">
+            <p class="card-text">Autor: {{x.user.username}}, edycja: {{x.edited|date:"d M Y"}} </p>
+                &nbsp;
+                {%if x.shared_users_str%}
+                    Udostępnione dla: {{x.shared_users_str}}
+                {%endif%}
+
+        </grid>
+
+<hr>
+        <grid class="row">
+            <grid class="col">
+                <grid class="row px-3">
+                    {%for tag in x.tags.all%}
+                        <a class="special-link" href="{% url 'notes_app:tagsview' tag=tag %}">
+                            #{{tag}}&nbsp;
+                        </a>
+
+                    {%endfor%}
+                </grid>
+            </grid>
+
+            <grid class="col align-self-center">
+                <grid class="row justify-content-end px-3">
+
+
+                        <form method="POST" action="{% url 'notes_app:editstar' pk=x.pk %}">
+                            {%csrf_token%}
+                            <button class="special-link btn btn-sm btn-outline-dark" type="submit" >
+                                
+                                {%if x.starred%}
+                                    <i class="fas fa-star fa-lg"></i>
+                                {%else%}
+                                    <i class="far fa-star fa-lg"></i>
+                                {%endif%}
+                            
+                            </button>
+                        </form>
+
+                </grid>
+            </grid>
+
+        </grid>
+
+
+
+        
+
+        
+
+
+
+
+      </div>
+
+
+  </div>

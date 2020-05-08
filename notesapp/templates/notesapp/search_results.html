@@ -1,0 +1,21 @@
+{% extends "homeviewapp\base.html" %}
+
+{%block content%}
+<div class="container">
+
+
+    <div class="jumbotron">
+        <div class="row justify-content-center ">
+            <h1>Wyniki wyszukiwania frazy: {{search_phrase}}</h1>
+        </div>
+    </div>
+
+{% for x in notes_list %}
+    {% include "notesapp/_noteslist.html" %}
+{% empty %}
+    <p>Brak rezultatów dla zapytania! </p>
+{% endfor %}
+
+</div>
+{%endblock%}
+

@@ -1,0 +1,23 @@
+{% extends "homeviewapp\base.html" %}
+
+{%block content%}
+<div class="container">
+    <div class="jumbotron">
+        <grid class="row px-3 justify-content-center">
+            <h1>Usuwanie notatki</h1>
+        </grid>
+
+        <form method="post">{% csrf_token %}
+            <br>
+            <p>Czy na pewno chcesz usunąć notatkę:</p>
+            <p><b>"{{ object }}"?</b></p>
+            <br>
+            <input class="btn btn-danger btn-block" type="submit" value="Tak">
+        </form>
+<hr>
+        <a class="btn btn-primary btn-block" href="{{ view.get_success_url }}">Nie</a>
+    </div>
+
+</div>
+{%endblock%}
+

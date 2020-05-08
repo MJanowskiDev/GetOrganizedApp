@@ -1,5 +1,4 @@
 {%load bootstrap4%}
-{% load my_todo_tags %}
 
     <div class="card  text-dark bg-light">
     {%if x.done%}
@@ -44,7 +43,7 @@
     <hr>
 
     <div class="mr-auto p-2 ">
-        {{x.memo|my_markdown}}
+        {{x.memo|safe}}
     </div>
     <hr>
     
@@ -90,7 +89,7 @@
             </div>
 
             <div class="card-body">
-                <p>{{comment.body|my_markdown}}</p>
+                <p>{{comment.body|safe}}</p>
             </div>
         </div>
     {% empty %}

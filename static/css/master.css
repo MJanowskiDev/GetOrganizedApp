@@ -8,4 +8,5 @@
 
 .special-link, .special-link:visited, .special-link:hover, .special-link:active {
   color: inherit;
+  outline: 0;
 }

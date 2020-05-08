@@ -1,0 +1,26 @@
+{% extends "homeviewapp\base.html" %}
+
+{%block content%}
+<div class="container">
+
+
+<div class="jumbotron">
+    <div class="row justify-content-center ">
+        {% if option == 0 %}
+            <h1>Twoje notatki</h1>
+        {% elif option == 1 %}
+            <h1>Notatki oznaczone <i class="fas fa-star fa-lg"></i></h1>
+        {% else %}
+            <h1>Udostępnione notatki</h1>
+        {% endif %}
+    </div>
+</div>
+
+
+    {% for x in all_notes %}
+        {% include "notesapp/_noteslist.html" %}
+    {% endfor %}
+
+</div>
+{%endblock%}
+

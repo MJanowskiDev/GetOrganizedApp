@@ -1,11 +1,18 @@
 {% extends "homeviewapp\base.html" %}
-
+{% load bootstrap4 %}
 
 {%block content%}
-
+<div class="container">
   <div class="jumbotron">
+    <div class="row justify-content-center">
       <h1>Witaj w aplikacji Get Organized!</h1>
+    </div>
+
+    <div class="row justify-content-center">
       <p>Prostej aplikacji do zarządzania zadaniami</p>
+    </div>
+
+
   </div>
 
   {%if user.is_active%}
@@ -35,36 +42,42 @@
           </div>
         </div>
 
-    <!-- TO REMOVE IN FUTURE -->
         <div class="card bg-light mb-3">
           <div class="card-header">
-              <h3>Język Markdown</h3>
+              <h3>Notatki</h3>
           </div>
 
           <div class="card-body">
-            <h5 class="card-title" >Kod źródłowy</h5>
-            # Nagłówek 1 ## Nagłówek 2 ### Nagłówek 3
+            <h5>Nowa notatka</h5>
+            <a class="btn btn-primary text-white" href="/notesapp/create/">Utwórz</a> 
             <hr>
-            Każdy paragraf jest rozdzielony pustą linią.
-            <hr>
-            Słowa można *pochylić*, **pogrubić**, i ~~przekreślić~~.
-            <hr>
-            Tak tworzy się [link] (http://google.com).
-            <hr>
-            Przykładowa lista:
-            <br>
-            * pierwsza
-            <br>
-            * druga
-            <hr>
-            Lista numerowana:
-            <br>
-            1. pierwsza
-            <br>
-            2. druga
 
-          </div>
+            <h5 class="card-title" >Notatki:</h5>
+            <a class="btn btn-primary text-white"  href="{% url 'notes_app:allnotes' option=0 %}">Twoje</a>
+            <a class="btn btn-primary text-white"  href="{% url 'notes_app:allnotes' option=1 %}">Oznaczone <i class="fas fa-star fa-sm"></i></a>
+            <a class="btn btn-primary text-white"  href="{% url 'notes_app:allnotes' option=2 %}">Udostępnione</a>
+       
+            <hr> 
+            
+            <h5 class="card-title">Hashtagi:</h5>
+            {% for x in notes_unique_tags %}
+              <a class="btn btn-outline-secondary btn-sm" href="{% url 'notes_app:tagsview' tag=x.slug %}">
+                    #{{x.name}}&nbsp
+              </a>
+            {%endfor%}
+<hr>
+            <h5>Wyszukiwanie: </h5>
+            
+              <form action="" method="POST">
+                {%csrf_token%}
+                {%bootstrap_form form%}
+                <button type="submit" class="btn btn-primary" >Szukaj</button>
+              </form>
+
+            
         </div>
+      </div>
+    </div>
   {%endif%}
 
 {%endblock%}

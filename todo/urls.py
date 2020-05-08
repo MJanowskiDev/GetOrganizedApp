@@ -16,9 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from homeviewapp import views
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('todoapp/', include('todoapp.urls')),
     path('authapp/', include('authapp.urls')),
+    path('notesapp/', include('notesapp.urls')),
+    path('summernote/', include('django_summernote.urls')),
     path('', views.HomeView.as_view(), name = 'home')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

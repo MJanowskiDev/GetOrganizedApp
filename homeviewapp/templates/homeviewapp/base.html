@@ -30,8 +30,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-                <div class="dropdown nav-item ">
-                  <a class=" dropdown-toggle nav-link nav-link active" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="dropdown nav-item ">
+                  <a class="nav-link dropdown-toggle active" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Zadania
                   </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -42,7 +42,21 @@
                       <a class="dropdown-item" href="{% url 'todo_app:createtodo'  %}">Utwórz</a>
 
                     </div>
-                </div>
+                  </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Notatki
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'notes_app:allnotes' option=0 %}">Twoje</a>
+                    <a class="dropdown-item" href="{% url 'notes_app:allnotes' option=1 %}">Oznaczone <i class="fas fa-star fa-sm"></i></a>
+                    <a class="dropdown-item" href="{% url 'notes_app:allnotes' option=2 %}">Udostępnione</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/notesapp/create/">Utwórz</a>
+                  </div>
+                </li>
+
                 <a class="nav-item nav-link active" href="{% url 'auth_app:logout' %}">Wyloguj</a>
             {% else %}
                 <a class="nav-item nav-link active" href="{% url 'auth_app:signupuser' %}">Rejestracja</a>

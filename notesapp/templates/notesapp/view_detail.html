@@ -1,0 +1,100 @@
+{% extends "homeviewapp\base.html" %}
+
+{%block content%}
+<div class="container">
+    {% for x in single_note %}
+
+    <div class="card border-secondary mb-3">
+    
+        <div class="card-header ">
+            <div class="row justify-content-center px-3">
+                <h1>{{x.title}}</h1>
+            </div>
+            <hr>
+
+            <grid class="row justify-content-end px-3">
+                <p class="card-text">Autor: {{x.user.username}}, edycja: {{x.created|date:"d M Y"}}, data utworzenia: {{x.edited|date:"d M Y"}} </p>
+
+            </grid>
+
+            <grid class="row justify-content-end px-3">
+                <p>
+                    {%if x.shared_users_str%}
+                        Udostępnione dla: {{x.shared_users_str}} &nbsp;
+                    {%endif%}
+                </p>
+            </grid>
+
+            <grid class="row px-3 row justify-content-end">
+                {%for tag in x.tags.all%}
+                    <a class="special-link" href="{% url 'notes_app:tagsview' tag=tag %}">
+                        #{{tag}}&nbsp;
+                    </a>
+                {%endfor%}
+            </grid>
+
+
+            </grid>
+            
+
+          </div>
+      </div>
+    
+        <p>{{x.body|safe}}</p>
+
+
+
+
+      {%endfor%}
+<hr>
+        {% for x in single_note %}
+        <grid class="row px-3 justify-content-end">
+            <grid class="col-0 pr-1">
+                <h5>
+                    Akcje: 
+                    <a class="btn btn-danger text-white" href="{% url 'notes_app:removenote' pk=x.pk %}">
+                        <i class="fas fa-trash-alt fa-lg"></i>
+                    </a>
+                    <a class="special-link btn btn-primary text-white" href="{% url 'notes_app:editnote' pk=x.pk %}">
+                            <i class="fas fa-edit fa-lg"></i>
+                    </a>
+                    
+                </h5>
+            </grid>
+
+            <grid class="col-0 ">
+
+                <form method="POST" action="{% url 'notes_app:editstar' pk=x.pk %}">
+                    {%csrf_token%}
+                    <button class="special-link btn btn-outline-dark" type="submit" >
+                        
+                        {%if x.starred%}
+                            <i class="fas fa-star fa-lg"></i>
+                        {%else%}
+                            <i class="far fa-star fa-lg"></i>
+                        {%endif%}
+                    
+                    </button>
+                </form>
+            </grid>
+
+
+        </grid>
+
+
+        {%endfor%}
+        <br>
+
+
+
+        <grid class="row px-3 justify-content-end">
+            <h5 class="card-title" >Przejdź do:
+                <a class="btn btn-primary text-white"  href="{% url 'notes_app:allnotes' option=0 %}">Twoje</a>
+                <a class="btn btn-primary text-white"  href="{% url 'notes_app:allnotes' option=1 %}">Oznaczone <i class="fas fa-star fa-sm"></i></a>
+                <a class="btn btn-primary text-white"  href="{% url 'notes_app:allnotes' option=2 %}">Udostępnione</a>
+            </h5>
+        </grid>
+
+</div>
+{%endblock%}
+

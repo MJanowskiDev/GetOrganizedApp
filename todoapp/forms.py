@@ -2,15 +2,19 @@ from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 from .models import ToDo, ToDoComments
 import django.forms as forms
+from django_summernote.widgets import SummernoteWidget
 
 class TodoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['tags'].widget.attrs['placeholder'] = 'Lista hashtagów oddzielona przecinkami'
+        self.fields['shared_users_str'].widget.attrs['placeholder'] = 'Lista użytkowników oddzielona przecinkami'
 
         self.fields['title'].widget.attrs['autocomplete'] = 'off'
         self.fields['tags'].widget.attrs['autocomplete'] = 'off'
         self.fields['memo'].widget.attrs['autocomplete'] = 'off'
+        self.fields['memo'].widget = SummernoteWidget()
+
 
     class Meta:
         model = ToDo
